@@ -10,7 +10,7 @@
       body {
         margin: 0;
         padding: 0;
-        background: #3c3c3c url(https://googledrive.com/host/0BxHUwxY2d2CPa29hSUoyemdOSEE/loading.gif) center center no-repeat;
+        background: #3c3c3c url(/loading.gif) center center no-repeat;
         color: #ffffff;
         font-family: sans-serif;
         font-size: 13px;
@@ -104,10 +104,10 @@
     <span>This is a Chrome Experiment</span>
   </a>
 
-  <script type="text/javascript" src="https://googledrive.com/host/0BxHUwxY2d2CPa29hSUoyemdOSEE/Detector.js"></script>
-  <script type="text/javascript" src="https://googledrive.com/host/0BxHUwxY2d2CPa29hSUoyemdOSEE/three.min.js"></script>
-  <script type="text/javascript" src="https://googledrive.com/host/0BxHUwxY2d2CPa29hSUoyemdOSEE/Tween.js"></script>
-  <script type="text/javascript" src="https://googledrive.com/host/0BxHUwxY2d2CPa29hSUoyemdOSEE/globe.js"></script>
+  <script type="text/javascript" src="/third-party/Detector.js"></script>
+  <script type="text/javascript" src="/third-party/three.min.js"></script>
+  <script type="text/javascript" src="/third-party/Tween.js"></script>
+  <script type="text/javascript" src="/globe.js"></script>
   <script type="text/javascript">
     if(!Detector.webgl){
       Detector.addGetWebGLMessage();
@@ -142,7 +142,7 @@
       
       
       xhr = new XMLHttpRequest();
-      xhr.open('GET', 'https://googledrive.com/host/0BxHUwxY2d2CPa29hSUoyemdOSEE/cities.js', true);
+      xhr.open('GET', '/cities.js', true);
       xhr.onreadystatechange = function(e) {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
