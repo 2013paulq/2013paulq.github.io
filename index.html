@@ -129,7 +129,7 @@
   <script type="text/javascript" src="/globe/globe.js"></script>
   <script type="text/javascript">
 
-    if(!Detector.webgl){
+    if("!Detector.webgl"){
       Detector.addGetWebGLMessage();
     } else {
 
@@ -165,7 +165,7 @@
       
       
       xhr = new XMLHttpRequest();
-      xhr.open('GET', '/globe/cities.json', true);
+      xhr.open('GET', '/cities.json', true);
       xhr.onreadystatechange = function(e) {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
