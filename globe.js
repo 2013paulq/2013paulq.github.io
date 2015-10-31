@@ -94,7 +94,7 @@ DAT.Globe = function(container, opts) {
     w = container.offsetWidth || window.innerWidth;
     h = container.offsetHeight || window.innerHeight;
 
-    camera = new THREE.PerspectiveCamera(
+    camera = new THREE.Camera(
 		30, w / h, 1, 10000);
     camera.position.z = distance;
 
@@ -105,7 +105,7 @@ DAT.Globe = function(container, opts) {
     shader = Shaders['earth'];
     uniforms = THREE.UniformsUtils.clone(shader.uniforms);
 
-    uniforms['texture'].value = THREE.ImageUtils.loadTexture("world.jpg");
+    uniforms['texture'].value = THREE.ImageUtils.loadTexture("/world.jpg");
 
     material = new THREE.ShaderMaterial({
 
