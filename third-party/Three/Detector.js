@@ -28,7 +28,11 @@ Detector = {
       domElement.innerHTML = window.WebGLRenderingContext ? [
         'Sorry, your graphics card doesn\'t support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation">WebGL</a>'
       ].join( '\n' ) : [
+<<<<<<< HEAD
         'Sorry, your browser doesn\'t support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation">WebGL</a><br/>',
+=======
+        'Sorry, your browser or mobile device doesn\'t support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation">WebGL</a><br/>',
+>>>>>>> parent of 1e4c6e3... 6 2
         'Please try with',
         '<a href="http://www.google.com/chrome">Chrome</a>, ',
         '<a href="http://www.mozilla.com/en-US/firefox/new/">Firefox 4</a> or',
