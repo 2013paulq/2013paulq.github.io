@@ -22,7 +22,11 @@ DAT.Globe = function(container, opts) {
     return c;
   };
   var imgDir = opts.imgDir || '/globe/';
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> parent of 1bb4d57... 3
   var Shaders = {
     'earth' : {
       uniforms: {
@@ -297,9 +301,12 @@ DAT.Globe = function(container, opts) {
     this.is_animated = opts.animated;
     opts.format = opts.format || 'magnitude'; // other option is 'legend'
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> parent of 173e2ad... 08 01
 =======
 >>>>>>> parent of 173e2ad... 08 01
+=======
+>>>>>>> parent of 1bb4d57... 3
     if (opts.format === 'magnitude') {
       step = 3;
       colorFnWrapper = function(data, i) { return colorFn(data[i+2]); }
@@ -440,13 +447,17 @@ DAT.Globe = function(container, opts) {
 
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> parent of 173e2ad... 08 01
 =======
 >>>>>>> parent of 173e2ad... 08 01
+=======
+>>>>>>> parent of 1bb4d57... 3
     if(point.matrixAutoUpdate){
       point.updateMatrix();
     }
     subgeo.merge(point.geometry, point.matrix);
+<<<<<<< HEAD
   }
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -478,6 +489,8 @@ DAT.Globe = function(container, opts) {
  
     target.y = target.y > PI_HALF ? PI_HALF : target.y;
     target.y = target.y < - PI_HALF ? - PI_HALF : target.y;
+=======
+>>>>>>> parent of 1bb4d57... 3
   }
  
 =======
@@ -651,9 +664,12 @@ DAT.Globe = function(container, opts) {
 =======
 >>>>>>> parent of 173e2ad... 08 01
 
+<<<<<<< HEAD
   function render() {
     zoom(curZoomSpeed);
 
+=======
+>>>>>>> parent of 1bb4d57... 3
     rotation.x += (target.x - rotation.x) * 0.1;
     rotation.y += (target.y - rotation.y) * 0.1;
     distance += (distanceTarget - distance) * 0.3;
@@ -732,4 +748,7 @@ DAT.Globe = function(container, opts) {
   return this;
 
 };
+<<<<<<< HEAD
 >>>>>>> parent of 173e2ad... 08 01
+=======
+>>>>>>> parent of 1bb4d57... 3
