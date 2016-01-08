@@ -68,6 +68,7 @@ DAT.Globe = function(container, opts) {
     }
   };
 <<<<<<< HEAD
+<<<<<<< HEAD
  
   var camera, scene, renderer, w, h;
   var mesh, atmosphere, point;
@@ -78,6 +79,8 @@ DAT.Globe = function(container, opts) {
   var zoomSpeed = 50;
  
 =======
+=======
+>>>>>>> parent of 173e2ad... 08 01
 
   var camera, scene, renderer, w, h;
   var mesh, atmosphere, point;
@@ -87,11 +90,15 @@ DAT.Globe = function(container, opts) {
   var curZoomSpeed = 0;
   var zoomSpeed = 50;
 
+<<<<<<< HEAD
+>>>>>>> parent of 173e2ad... 08 01
+=======
 >>>>>>> parent of 173e2ad... 08 01
   var mouse = { x: 0, y: 0 }, mouseOnDown = { x: 0, y: 0 };
   var rotation = { x: 0, y: 0 },
       target = { x: Math.PI*3/2, y: Math.PI / 6.0 },
       targetOnDown = { x: 0, y: 0 };
+<<<<<<< HEAD
 <<<<<<< HEAD
  
   var distance = 100000, distanceTarget = 100000;
@@ -138,6 +145,8 @@ DAT.Globe = function(container, opts) {
     material = new THREE.ShaderMaterial({
  
 =======
+=======
+>>>>>>> parent of 173e2ad... 08 01
 
   var distance = 100000, distanceTarget = 100000;
   var padding = 40;
@@ -182,6 +191,9 @@ DAT.Globe = function(container, opts) {
 
     material = new THREE.ShaderMaterial({
 
+<<<<<<< HEAD
+>>>>>>> parent of 173e2ad... 08 01
+=======
 >>>>>>> parent of 173e2ad... 08 01
           uniforms: uniforms,
           vertexShader: shader.vertexShader,
@@ -190,6 +202,7 @@ DAT.Globe = function(container, opts) {
           blending: THREE.AdditiveBlending,
           transparent: true
 <<<<<<< HEAD
+<<<<<<< HEAD
  
         });
  
@@ -222,6 +235,8 @@ DAT.Globe = function(container, opts) {
     }, false);
  
 =======
+=======
+>>>>>>> parent of 173e2ad... 08 01
 
         });
 
@@ -253,11 +268,15 @@ DAT.Globe = function(container, opts) {
       overRenderer = true;
     }, false);
 
+<<<<<<< HEAD
+>>>>>>> parent of 173e2ad... 08 01
+=======
 >>>>>>> parent of 173e2ad... 08 01
     container.addEventListener('mouseout', function() {
       overRenderer = false;
     }, false);
   }
+<<<<<<< HEAD
 <<<<<<< HEAD
  
   function addData(data, opts) {
@@ -268,6 +287,8 @@ DAT.Globe = function(container, opts) {
     opts.format = opts.format || 'magnitude'; // other option is 'legend'
  
 =======
+=======
+>>>>>>> parent of 173e2ad... 08 01
 
   function addData(data, opts) {
     var lat, lng, size, color, i, step, colorFnWrapper;
@@ -275,6 +296,9 @@ DAT.Globe = function(container, opts) {
     opts.animated = opts.animated || false;
     this.is_animated = opts.animated;
     opts.format = opts.format || 'magnitude'; // other option is 'legend'
+<<<<<<< HEAD
+>>>>>>> parent of 173e2ad... 08 01
+=======
 >>>>>>> parent of 173e2ad... 08 01
     if (opts.format === 'magnitude') {
       step = 3;
@@ -286,7 +310,11 @@ DAT.Globe = function(container, opts) {
       throw('error: format not supported: '+opts.format);
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> parent of 173e2ad... 08 01
 =======
 
 >>>>>>> parent of 173e2ad... 08 01
@@ -324,9 +352,15 @@ DAT.Globe = function(container, opts) {
       this._baseGeometry = subgeo;
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
  
   };
  
+=======
+
+  };
+
+>>>>>>> parent of 173e2ad... 08 01
 =======
 
   };
@@ -360,6 +394,7 @@ DAT.Globe = function(container, opts) {
     }
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
  
   function addPoint(lat, lng, size, color, subgeo) {
  
@@ -382,6 +417,8 @@ DAT.Globe = function(container, opts) {
     }
  
 =======
+=======
+>>>>>>> parent of 173e2ad... 08 01
 
   function addPoint(lat, lng, size, color, subgeo) {
 
@@ -402,12 +439,16 @@ DAT.Globe = function(container, opts) {
       point.geometry.faces[i].color = color;
 
     }
+<<<<<<< HEAD
+>>>>>>> parent of 173e2ad... 08 01
+=======
 >>>>>>> parent of 173e2ad... 08 01
     if(point.matrixAutoUpdate){
       point.updateMatrix();
     }
     subgeo.merge(point.geometry, point.matrix);
   }
+<<<<<<< HEAD
 <<<<<<< HEAD
  
   function onMouseDown(event) {
@@ -440,6 +481,8 @@ DAT.Globe = function(container, opts) {
   }
  
 =======
+=======
+>>>>>>> parent of 173e2ad... 08 01
 
   function onMouseDown(event) {
     event.preventDefault();
@@ -470,6 +513,9 @@ DAT.Globe = function(container, opts) {
     target.y = target.y < - PI_HALF ? - PI_HALF : target.y;
   }
 
+<<<<<<< HEAD
+>>>>>>> parent of 173e2ad... 08 01
+=======
 >>>>>>> parent of 173e2ad... 08 01
   function onMouseUp(event) {
     container.removeEventListener('mousemove', onMouseMove, false);
@@ -478,7 +524,11 @@ DAT.Globe = function(container, opts) {
     container.style.cursor = 'auto';
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> parent of 173e2ad... 08 01
 =======
 
 >>>>>>> parent of 173e2ad... 08 01
@@ -488,7 +538,11 @@ DAT.Globe = function(container, opts) {
     container.removeEventListener('mouseout', onMouseOut, false);
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> parent of 173e2ad... 08 01
 =======
 
 >>>>>>> parent of 173e2ad... 08 01
@@ -500,7 +554,11 @@ DAT.Globe = function(container, opts) {
     return false;
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> parent of 173e2ad... 08 01
 =======
 
 >>>>>>> parent of 173e2ad... 08 01
@@ -517,7 +575,11 @@ DAT.Globe = function(container, opts) {
     }
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> parent of 173e2ad... 08 01
 =======
 
 >>>>>>> parent of 173e2ad... 08 01
@@ -527,7 +589,11 @@ DAT.Globe = function(container, opts) {
     renderer.setSize( container.offsetWidth, container.offsetHeight );
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> parent of 173e2ad... 08 01
 =======
 
 >>>>>>> parent of 173e2ad... 08 01
@@ -537,7 +603,11 @@ DAT.Globe = function(container, opts) {
     distanceTarget = distanceTarget < 350 ? 350 : distanceTarget;
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> parent of 173e2ad... 08 01
 =======
 
 >>>>>>> parent of 173e2ad... 08 01
@@ -545,6 +615,7 @@ DAT.Globe = function(container, opts) {
     requestAnimationFrame(animate);
     render();
   }
+<<<<<<< HEAD
 <<<<<<< HEAD
  
   function render() {
@@ -577,6 +648,8 @@ DAT.Globe = function(container, opts) {
   });
  
 =======
+=======
+>>>>>>> parent of 173e2ad... 08 01
 
   function render() {
     zoom(curZoomSpeed);
@@ -602,6 +675,9 @@ DAT.Globe = function(container, opts) {
     return this._time || 0;
   });
 
+<<<<<<< HEAD
+>>>>>>> parent of 173e2ad... 08 01
+=======
 >>>>>>> parent of 173e2ad... 08 01
   this.__defineSetter__('time', function(t) {
     var validMorphs = [];
@@ -627,7 +703,11 @@ DAT.Globe = function(container, opts) {
     this._time = t;
   });
 <<<<<<< HEAD
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> parent of 173e2ad... 08 01
 =======
 
 >>>>>>> parent of 173e2ad... 08 01
@@ -636,10 +716,17 @@ DAT.Globe = function(container, opts) {
   this.renderer = renderer;
   this.scene = scene;
 <<<<<<< HEAD
+<<<<<<< HEAD
  
   return this;
  
 };
+=======
+
+  return this;
+
+};
+>>>>>>> parent of 173e2ad... 08 01
 =======
 
   return this;
