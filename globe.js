@@ -15,13 +15,13 @@ var DAT = DAT || {};
 
 DAT.Globe = function(container, opts) {
   opts = opts || {};
-
+  
   var colorFn = opts.colorFn || function(x) {
     var c = new THREE.Color();
     c.setHSL( ( 0.6 - ( x * 0.5 ) ), 1.0, 0.5 );
     return c;
   };
-  var imgDir = opts.imgDir || '/views/';
+  var imgDir = opts.imgDir || '/globe/';
 
   var Shaders = {
     'earth' : {
@@ -77,7 +77,7 @@ DAT.Globe = function(container, opts) {
   var zoomSpeed = 50;
 
   var mouse = { x: 0, y: 0 }, mouseOnDown = { x: 0, y: 0 };
-  var rotation = { x: 0, y: 0 }, incr_rotation = { x: -0.001, y: 0 },
+  var rotation = { x: 0, y: 0 },
       target = { x: Math.PI*3/2, y: Math.PI / 6.0 },
       targetOnDown = { x: 0, y: 0 };
 
@@ -94,7 +94,8 @@ DAT.Globe = function(container, opts) {
     w = container.offsetWidth || window.innerWidth;
     h = container.offsetHeight || window.innerHeight;
 
-    camera = new THREE.PerspectiveCamera(30, w / h, 1, 10000);
+    camera = new THREE.PerspectiveCamera(
+		30, w / h, 1, 10000);
     camera.position.z = distance;
 
     scene = new THREE.Scene();
@@ -104,7 +105,7 @@ DAT.Globe = function(container, opts) {
     shader = Shaders['earth'];
     uniforms = THREE.UniformsUtils.clone(shader.uniforms);
 
-    uniforms['texture'].value = THREE.ImageUtils.loadTexture(imgDir+'img/world.jpg');
+    uniforms['texture'].value = THREE.ImageUtils.loadTexture("/world.jpg");
 
     material = new THREE.ShaderMaterial({
 
@@ -136,7 +137,7 @@ DAT.Globe = function(container, opts) {
     mesh.scale.set( 1.1, 1.1, 1.1 );
     scene.add(mesh);
 
-    geometry = new THREE.CubeGeometry(0.75, 0.75, 1);
+    geometry = new THREE.BoxGeometry(0.75, 0.75, 1);
     geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,0,-0.5));
 
     point = new THREE.Mesh(geometry);
@@ -165,13 +166,12 @@ DAT.Globe = function(container, opts) {
     }, false);
   }
 
-  addData = function(data, opts) {
+  function addData(data, opts) {
     var lat, lng, size, color, i, step, colorFnWrapper;
 
     opts.animated = opts.animated || false;
     this.is_animated = opts.animated;
     opts.format = opts.format || 'magnitude'; // other option is 'legend'
-    console.log(opts.format);
     if (opts.format === 'magnitude') {
       step = 3;
       colorFnWrapper = function(data, i) { return colorFn(data[i+2]); }
@@ -265,8 +265,10 @@ DAT.Globe = function(container, opts) {
       point.geometry.faces[i].color = color;
 
     }
-
-    THREE.GeometryUtils.merge(subgeo, point);
+    if(point.matrixAutoUpdate){
+      point.updateMatrix();
+    }
+    subgeo.merge(point.geometry, point.matrix);
   }
 
   function onMouseDown(event) {
@@ -333,9 +335,9 @@ DAT.Globe = function(container, opts) {
   }
 
   function onWindowResize( event ) {
-    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = container.offsetWidth / container.offsetHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( container.offsetWidth, container.offsetHeight );
   }
 
   function zoom(delta) {
@@ -352,12 +354,7 @@ DAT.Globe = function(container, opts) {
   function render() {
     zoom(curZoomSpeed);
 
-    // rotation.x += (target.x - rotation.x) * 0.1;
-    // rotation.x -= 0.001
-
-    target.x += incr_rotation.x;
-    target.y += incr_rotation.y;
-    rotation.x += (target.x - rotation.x) * 0.10;;
+    rotation.x += (target.x - rotation.x) * 0.1;
     rotation.y += (target.y - rotation.y) * 0.1;
     distance += (distanceTarget - distance) * 0.3;
 
