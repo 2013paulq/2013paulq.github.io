@@ -166,9 +166,26 @@ DAT.Globe = function(container, opts) {
     }, false);
   }
  
-  addData = function(data, opts) {
-    var lat, lng, size, i,
-        color = new THREE.Color().setRGB(1, 0, 0),
+  function addData(data, opts) {
+    var lat, lng, size, color, i, step, colorFnWrapper;
+ 
+    opts.animated = opts.animated || false;
+    this.is_animated = opts.animated;
+    opts.format = opts.format || 'magnitude'; // other option is 'legend'
+ 
+    if (opts.format === 'magnitude') {
+      step = 3;
+      colorFnWrapper = function(data, i) { return colorFn(data[i+2]); }
+    } else if (opts.format === 'legend') {
+      step = 4;
+      colorFnWrapper = function(data, i) { return colorFn(data[i+3]); }
+    } else {
+      throw('error: format not supported: '+opts.format);
+    }
+ 
+    if (opts.animated) {
+      if (this._baseGeometry === undefined) {
+        this._baseGeometry = new THREE.Geometry();
         for (i = 0; i < data.length; i += step) {
           lat = data[i];
           lng = data[i + 1];
