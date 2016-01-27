@@ -17,12 +17,10 @@ DAT.Globe = function(container, opts) {
   opts = opts || {};
   
   var colorFn = opts.colorFn || function(x) {
-    var c = new THREE.Color([
-0xbe1111, 0xb6b4b5, 0x9966cc, 0x15adff, 0x3e66a3, 0x216288, 0xff7e7e, 0xff1f13,
-0xc0120b, 0x5a1301, 0xffcc02, 0xedb113, 0x9fce66, 0x0c9a39, 0xfe9872, 0x7f3f98,
-0xf26522, 0x2bb673, 0xd7df23, 0xe6b23a, 0x7ed3f7
-][label]);
-});
+    var c = new THREE.Color();
+    c.setHSL( ( 0.6 - ( x * 0.5 ) ), 1.0, 0.5 );
+    return c;
+  };
   var imgDir = opts.imgDir || '/globe/';
 
   var Shaders = {
