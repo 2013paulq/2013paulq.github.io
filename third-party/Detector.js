@@ -26,7 +26,7 @@ Detector = {
     if ( ! this.webgl ) {
 
       domElement.innerHTML = window.WebGLRenderingContext ? [
-        'Reload Globe <a href="http://paul-quast.com">Here</a><br/>''
+        'Sorry, your graphics card doesn\'t support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation">WebGL</a>'
       ].join( '\n' ) : [
         'Reload Globe <a href="http://paul-quast.com">Here</a><br/>',
         'Or please try via',
