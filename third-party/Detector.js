@@ -33,7 +33,7 @@ Detector = {
         '<a href="http://www.mozilla.com/en-US/firefox/new/">Firefox</a>, ',
 		'<a href="http://www.google.com/chrome">Chrome</a>, ',
 		'<a href="https://www.microsoft.com/en-us/download/details.aspx?id=48126">Edge</a> or',
-        '<a href="http://www.opera.com/">Opera</a>'
+        '<a href="http://nightly.webkit.org/">Webkit Nightly (Mac)</a>'
       ].join( '\n' );
 
     }
