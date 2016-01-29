@@ -30,8 +30,8 @@ Detector = {
       ].join( '\n' ) : [
         'Reload Globe <a href="http://paul-quast.com">Here</a><br/>',
         'Or please try via',
-        '<a href="http://www.google.com/chrome">Chrome</a>, ',
-        '<a href="http://www.mozilla.com/en-US/firefox/new/">Firefox 4</a> or',
+        '<a href="http://www.mozilla.com/en-US/firefox/new/">Firefox</a> or',
+		'<a href="http://www.google.com/chrome">Chrome</a>, ',
         '<a href="http://nightly.webkit.org/">Webkit Nightly (Mac)</a>'
       ].join( '\n' );
 
