@@ -31,8 +31,8 @@ Detector = {
         'Sorry, your browser doesn\'t support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation">WebGL</a><br/>',
         'Please try with',
         '<a href="http://www.google.com/chrome">Chrome</a>, ',
-        '<a href="http://www.mozilla.com/en-US/firefox/new/">Firefox 4</a> or',
-        '<a href="http://nightly.webkit.org/">Webkit Nightly (Mac)</a>'
+        '<a href="http://www.mozilla.com/en-US/firefox/new/">Firefox</a> or',
+        '<a href="https://www.microsoft.com/en-us/download/details.aspx?id=48126">Edge</a>'
       ].join( '\n' );
 
     }
