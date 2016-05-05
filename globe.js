@@ -302,7 +302,9 @@ DAT.Globe = function(container, opts){
 		iss.scale.y = 16;
 
 		updateIssPosition();
-		setInterval(updateIssPosition,2000);
+
+		// How often to update ISS position, milliseconds
+		setInterval(updateIssPosition, 5000);
 		scene.add(iss);
 	}
 
@@ -336,6 +338,7 @@ DAT.Globe = function(container, opts){
 		var theta = (180 - lng) * Math.PI / 180;
 		var position = {};
 
+        // ISS orbit height
 		position.x = 212.5 * Math.sin(phi) * Math.cos(theta);
 		position.y = 212.5 * Math.cos(phi);
 		position.z = 212.5 * Math.sin(phi) * Math.sin(theta);
@@ -444,7 +447,8 @@ DAT.Globe = function(container, opts){
 		rotation.y += (target.y - rotation.y) * 0.1;
 		distance += (distanceTarget - distance) * 0.3;
 
-		// Miliseconds in a day - 86400000
+        // Earth rotation speed
+		// Milliseconds in a day - 86400000
 		if (timestamp) {
 			target.x -= (timestamp - previousTimestamp)*6/864000;
 			previousTimestamp = timestamp;
