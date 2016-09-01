@@ -21,10 +21,10 @@
 
   <div id="container"></div>
 
-  <script type="text/javascript" src="/third-party/Detector.js"></script>
-  <script type="text/javascript" src="/third-party/three.min.js"></script>
-  <script type="text/javascript" src="/third-party/Tween.js"></script>
-  <script type="text/javascript" src="/globe.js"></script>
+  <script type="text/javascript" src="third-party/Detector.js"></script>
+  <script type="text/javascript" src="third-party/three.min.js"></script>
+  <script type="text/javascript" src="third-party/Tween.js"></script>
+  <script type="text/javascript" src="globe.js"></script>
   <script type="text/javascript">
   
     if(!Detector.webgl){
@@ -37,14 +37,7 @@
 
       var i, tweens = [];
       
-      var settime = function(globe, t) {
-        return function() {
-          new TWEEN.Tween(globe).to({time: t/years.length},500).easing(TWEEN.Easing.Cubic.EaseOut).start();
-        };
-      };
-      
       TWEEN.start();
-      settime(globe,0)();
             globe.renderIss();
             globe.animate();
             document.body.style.backgroundImage = 'none'; // remove loading
