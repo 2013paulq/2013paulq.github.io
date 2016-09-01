@@ -458,6 +458,8 @@ DAT.Globe = function(container, opts){
 		camera.position.y = distance * Math.sin(rotation.y);
 		camera.position.z = distance * Math.cos(rotation.x) * Math.cos(rotation.y);
 
+		//var focusPoint = new THREE.Vector3(100,0,0);
+
 		camera.lookAt(mesh.position);
 
 		renderer.render(scene, camera);
