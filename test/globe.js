@@ -85,7 +85,7 @@ DAT.Globe = function(container, opts){
 	var PI_HALF = Math.PI / 2;
 
 	var issMaterial = new THREE.SpriteMaterial({
-		map: new THREE.TextureLoader().load('/iss_icon.png'),
+		map: new THREE.TextureLoader().load('/test/iss_icon.png'),
 		color: 0xffffff,
 		fog: true
 	});
@@ -127,7 +127,7 @@ DAT.Globe = function(container, opts){
 		shader = Shaders['earth'];
 		uniforms = THREE.UniformsUtils.clone(shader.uniforms);
 
-		uniforms['texture'].value = new THREE.TextureLoader().load('/test/world.jpg');
+		uniforms['texture'].value = new THREE.TextureLoader().load('test/world.jpg');
 
 		material = new THREE.ShaderMaterial({
 			uniforms: uniforms,
