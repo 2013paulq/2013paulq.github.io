@@ -122,17 +122,30 @@ DAT.Globe = function(container, opts){
 
 		scene.add(line);
 
+		var geometry = new THREE.SphereGeometry(200, 40, 30);
+
+		shader = Shaders['earth'];
+		uniforms = THREE.UniformsUtils.clone(shader.uniforms);
+
+		uniforms['texture'].value = new THREE.TextureLoader().load('/test/world.jpg');
+
+		material = new THREE.ShaderMaterial({
+			uniforms: uniforms,
+			vertexShader: shader.vertexShader,
+			fragmentShader: shader.fragmentShader
+		
 		/ create the geometry sphere
 		var geometry  = new THREE.SphereGeometry(90, 32, 32)
 		// create the material, using a texture of startfield
 		var material  = new THREE.MeshBasicMaterial()
-		material.map   = THREE.ImageUtils.loadTexture('test/star.jpg')
+		material.map   = THREE.ImageUtils.loadTexture('/test/star.jpg')
 		material.side  = THREE.BackSide
 		// create the mesh based on geometry and material
 		var mesh  = new THREE.Mesh(geometry, material)
 
 		});
 
+		mesh = new THREE.Mesh(geometry, material);
 		mesh.rotation.y = Math.PI;
 		scene.add(mesh);
 
