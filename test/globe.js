@@ -126,7 +126,7 @@ DAT.Globe = function(container, opts){
 var geometry  = new THREE.SphereGeometry(90, 32, 32)
 // create the material, using a texture of startfield
 var material  = new THREE.MeshBasicMaterial()
-material.map   = THREE.ImageUtils.loadTexture('images/galaxy_starfield.png')
+material.map   = THREE.ImageUtils.loadTexture('test/star.jpg')
 material.side  = THREE.BackSide
 // create the mesh based on geometry and material
 var mesh  = new THREE.Mesh(geometry, material)
