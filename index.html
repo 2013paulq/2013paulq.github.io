@@ -107,7 +107,9 @@
         }
 
         .archive_message{
-            margin-bottom: 1rem;
+            margin-bottom: .75rem;
+            padding-top: .75rem;
+            border-top: 1px solid #222;
         }
 
         #message {
@@ -122,6 +124,7 @@
             max-width: 40rem;
             max-height: 50vh;
             overflow: hidden;
+            pointer-events: none;
         }
 
         .message-animation {
@@ -184,6 +187,7 @@
             0% {
                 top: 50%;
                 opacity: 0;
+                pointer-events: auto;
             }
 
             2% {
@@ -234,7 +238,7 @@
     </div>-->
 </div>
 <div id="archive">
-    <h3>Messages</h3>
+    <h3>Message Catalogue</h3>
     <ul class="vertical menu" data-drilldown id="archive_menu">
 
     </ul>
@@ -245,59 +249,154 @@
 </blockquote>
 
 <script>
-    function showMessage(suggestion){
-    	if (typeof suggestion === 'string') {
-    		suggestion = JSON.parse(suggestion);
-        }
-
-    	$('#message_text').text(suggestion.text);
-    	$('#message_title').text((suggestion.city || "")+((suggestion.country && suggestion.city) ? ", " : "")+(suggestion.country || ""));
+    function showMessage(index){
+    	var contribution = $.grep(lines, function(line){ return line.index === index})[0];
+    	$('#message_text').text(contribution.text);
+    	$('#message_title').text((contribution.city || "")+((contribution.country && contribution.city) ? ", " : "")+(contribution.country || ""));
     	var $message = $('#message');
     	$message.perfectScrollbar('update');
 
-    	if (suggestion.text.length < 300) {
+    	if (contribution.text.length < 300) {
 		    $message.removeClass('message-animation long');
 		    void $message[0].offsetWidth;
 		    $message.addClass('message-animation');
         } else {
 		    $message.removeClass('message-animation').addClass('long');
         }
-
-	    drawSpike(suggestion);
     }
 
-    function drawSpike(suggestion ){
-	    var sameSpot = lines.filter(function(contribution){return contribution.latitude === suggestion.latitude && contribution.longitude === suggestion.longitude});
-	    globe.addData([suggestion.latitude, suggestion.longitude, sameSpot.length*0.02], {format: 'magnitude', name: suggestion.city, animated: false});
+    function drawSpike(contribution ){
+	    globe.addData([contribution.latitude, contribution.longitude, getSameSpot(contribution.latitude, contribution.longitude).length*0.02], {format: 'magnitude', name: 'l'+contribution.index, animated: false});
 	    globe.createPoints();
-	    settime(globe, selectionCount++)();
+	    //settime(globe, selectionCount++)();
+    }
+
+    function getSameSpot(latitude, longitude) {
+	    return lines.filter(function(line){return line.latitude === latitude && line.longitude === longitude});
+    }
+
+    function highlightCity(city, country, clear) {
+	    if (clear !== false) {
+		    clearSpikes();
+	    }
+        var contribution = $.grep(lines, function(line){ return line.city === city && line.country === country})[0];
+        if (clear !== false) {
+	        parentView = {type: "country", country: country, continent: contribution.continent};
+        }
+        drawSpike(contribution);
+    }
+
+    function highlightCountry(country, continent, clear) {
+    	if (clear !== false) {
+    		clearSpikes();
+		    parentView = {type: "continent", continent: continent};
+        }
+    	Object.keys(tree[continent][country]).forEach(function(city){highlightCity(city, country, false)});
+    }
+
+    function highlightContinent(continent) {
+    	clearSpikes();
+	    parentView = {type: "all"};
+	    Object.keys(tree[continent]).forEach(function(country){highlightCountry(country, continent, false)});
+    }
+
+    function highlightAll(){
+	    var previousLongitude = null, previousLatitude = null;
+	    parentView = {};
+
+	    for (var i = 0; i < lines.length; i++) {
+		    if (lines[i].longitude && lines[i].latitude && (lines[i].longitude !== previousLongitude || lines[i].latitude !== previousLatitude)) {
+			    globe.addData([lines[i].latitude, lines[i].longitude, getSameSpot(lines[i].latitude, lines[i].longitude).length*0.02], {
+				    format: 'magnitude',
+				    name: 'l'+lines[i].index,
+				    animated: false
+			    });
+
+			    previousLongitude = lines[i].longitude;
+			    previousLatitude = lines[i].latitude;
+
+			    globe.createPoints();
+		    }
+	    }
+    }
+
+    function clearSpikes(){
+    	lines.forEach(function(line){
+    		var object;
+    		while (object = globe.scene.getObjectByName('l'+line.index)) {
+    			globe.scene.remove(object);
+            }
+        });
+    }
+
+    function handleBack(){
+    	switch (parentView.type) {
+            case 'all':
+                highlightAll();
+            	break;
+            case 'continent':
+            	highlightContinent(parentView.continent);
+            	break;
+            case 'country':
+            	highlightCountry(parentView.country, parentView.continent);
+            	break;
+        }
     }
 </script>
 
 <script id="menu-template" type="text/x-handlebars-template">
-    {{#each continents}}
-        <li>
-            <a href="#">{{@key}}</a>
-            <ul class="vertical menu">
-                {{#each this}}
+    {{#each this}}
+        {{#ifCond @key "Other"}}
+            <li>
+                <a href="#" onClick="highlightContinent('{{@key}}')">{{@key}}</a>
+                <ul class="vertical menu">
+                    {{#each this}}
+                        <li class="archive_message"><a onClick="showMessage({{index}})">{{trimArchiveString message}}</a></li>
+                    {{/each}}
+                </ul>
+            </li>
+        {{else}}
+            {{#ifCond @key "Honorary Mentions"}}
                 <li>
-                    <a href="">{{@key}}</a>
+                    <a href="#" onClick="highlightContinent('{{@key}}')">{{@key}}</a>
                     <ul class="vertical menu">
                         {{#each this}}
                         <li>
-                            <a href="">{{@key}}</a>
+                            <a href="" onClick="highlightCountry('{{@key}}','{{@../key}}')">{{@key}}</a>
                             <ul class="vertical menu">
                                 {{#each this}}
-                                    <li class="archive_message"><a onClick="showMessage({{suggestion}})">{{message}}</a></li>
+                                <li class="archive_message"><a onClick="showMessage({{index}})">{{trimArchiveString message}}</a></li>
                                 {{/each}}
                             </ul>
                         </li>
                         {{/each}}
                     </ul>
                 </li>
-                {{/each}}
-            </ul>
-        </li>
+            {{else}}
+                <li>
+                    <a href="#" onClick="highlightContinent('{{@key}}')">{{@key}}</a>
+                    <ul class="vertical menu">
+                        {{#each this}}
+                        <li>
+                            <a href="" onClick="highlightCountry('{{@key}}','{{@../key}}')">{{@key}}</a>
+                            <ul class="vertical menu">
+                                {{#each this}}
+                                <li>
+                                    <a href="" onClick="highlightCity('{{@key}}','{{@../key}}')">{{@key}}</a>
+                                    <ul class="vertical menu">
+                                        {{#each this}}
+                                        <li class="archive_message"><a onClick="showMessage({{index}})">{{trimArchiveString message}}</a></li>
+                                        {{/each}}
+                                    </ul>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </li>
+            {{/ifCond}}
+        {{/ifCond}}
     {{/each}}
 </script>
 
@@ -319,66 +418,65 @@
     if (!Detector.webgl) {
         Detector.addGetWebGLMessage();
     } else {
-
         var container = document.getElementById('container');
         var globe = new DAT.Globe(container);
-
-        var i, tweens = [];
-
-        var selectionCount = 0;
-
-        var settime = function(globe, t){
-            return function(){
-                new TWEEN.Tween(globe).to({time: selectionCount}, 500).easing(TWEEN.Easing.Cubic.EaseOut).start();
-            };
-        };
-
         TWEEN.start();
     }
 
     var lines = [];
+    var tree = {};
+    var parentView;
 
     $.getJSON('/output.json', function(data) {
        lines = data;
 
-        var previousLongitude = null, previousLatitude = null;
+        // Construct tree
+	    data.forEach(function(datum){
+	    	if (datum.continent === "Other") {
+	    		if (!tree[datum.continent]) {
+	    			tree[datum.continent] = [];
+                }
+	    		tree[datum.continent].push({message: datum.text, index: datum.index});
+            } else if (datum.continent === "Honorary Mentions") {
+			    if (!tree[datum.continent]) {
+				    tree[datum.continent] = {};
+			    }
+			    if (!tree[datum.continent][datum.country]) {
+				    tree[datum.continent][datum.country] = [];
+			    }
+			    tree[datum.continent][datum.country].push({message: datum.text, index: datum.index});
+            } else {
+			    if (!tree[datum.continent]) {
+				    tree[datum.continent] = {};
+			    }
+			    if (!tree[datum.continent][datum.country]) {
+				    tree[datum.continent][datum.country] = {};
+			    }
+			    if (!tree[datum.continent][datum.country][datum.city]) {
+				    tree[datum.continent][datum.country][datum.city] = [];
+			    }
 
-        for (var i = 0; i < lines.length; i++) {
-            if (lines[i].longitude !== previousLongitude || lines[i].latitude !== previousLatitude) {
-                var sameSpot = lines.filter(function(contribution){return contribution.latitude === lines[i].latitude && contribution.longitude === lines[i].longitude});
-                globe.addData([lines[i].latitude, lines[i].longitude, sameSpot.length * 0.02], {
-                    format: 'magnitude',
-                    name: lines[i].city,
-                    animated: true
-                });
-
-                previousLongitude = lines[i].longitude;
-                previousLatitude = lines[i].latitude;
+			    tree[datum.continent][datum.country][datum.city].push({message: datum.text, index: datum.index});
             }
-        }
+	    });
 
-        globe.createPoints();
+	    Object.keys(tree).forEach(function(continent){
+	    	if (continent !== "Other" && continent !== "Honorable Mentions") {
+	    		Object.keys(tree[continent]).forEach(function(country){
+	    			const orderedCountry = {};
+				    Object.keys(tree[continent][country]).sort().forEach(function(city) {
+                        orderedCountry[city] = tree[continent][country][city];
+				    });
+				    tree[continent][country] = orderedCountry;
+                })
+            }
+        });
+
+        highlightAll();
+
         globe.renderIss();
         globe.animate();
         document.body.style.backgroundImage = 'none';
-
-        var tree = {
-        	continents: {}
-        };
-
-        data.forEach(function(datum){
-        	if (!tree.continents[datum.continent]) {
-        		tree.continents[datum.continent] = {};
-            }
-	        if (!tree.continents[datum.continent][datum.country]) {
-		        tree.continents[datum.continent][datum.country] = {};
-	        }
-	        if (!tree.continents[datum.continent][datum.country][datum.city]) {
-		        tree.continents[datum.continent][datum.country][datum.city] = [];
-	        }
-
-            tree.continents[datum.continent][datum.country][datum.city].push({message: datum.text, suggestion: JSON.stringify(datum)});
-        });
 
 	    Handlebars.registerHelper('escape', function(variable) {
 		    return variable.replace(/(['"])/g, '\\$1');
@@ -391,8 +489,11 @@
 		    autoHeight: true
 	    });
 
-	    $('#archive_menu').on('open.zf.drilldown hide.zf.drilldown', function(){
-	    	$('#archive').scrollTop(0).perfectScrollbar('update');
+	    $('#archive_menu').on('open.zf.drilldown hide.zf.drilldown closed.zf.drilldown', function(e){
+		    $('#archive').scrollTop(0).perfectScrollbar('update');
+	    	if (e.type === 'hide') {
+			    handleBack();
+            }
         });
 
 	    $('#archive').perfectScrollbar();
@@ -402,6 +503,17 @@
 
     Handlebars.registerHelper('trimString', function(string) {
         return new Handlebars.SafeString(string.toString().substr(0, 75)+(string.toString().length > 75 ? '...' : ''));
+    });
+
+    Handlebars.registerHelper('trimArchiveString', function(string) {
+	    return new Handlebars.SafeString(string.toString().substr(0, 188)+(string.toString().length > 188 ? '...' : ''));
+    });
+
+    Handlebars.registerHelper('ifCond', function(v1, v2, options) {
+	    if(v1 === v2) {
+		    return options.fn(this);
+	    }
+	    return options.inverse(this);
     });
 
     var contributions = new Bloodhound({
@@ -414,14 +526,19 @@
     $('input').typeahead(null,{
         name: 'contributions',
         source: contributions,
-        display: function(suggestion) { return suggestion.name+' '+suggestion.city+' '+suggestion.country},
+        display: function(suggestion) { return suggestion.city+' '+suggestion.country},
         templates: {
             suggestion: Handlebars.compile('<div class="suggestion"><div class="name">' +
                     '{{#if city}}{{city}}, {{/if}}' +
                     '{{country}}</div><div class="text">{{trimString text}}</div></div>')
         }
     }).on('typeahead:select', function(env, suggestion) {
-        showMessage(suggestion);
+    	console.log(suggestion);
+    	clearSpikes();
+    	if (suggestion.longitude && suggestion.latitude) {
+		    drawSpike(suggestion);
+        }
+        showMessage(suggestion.index);
     });
 </script>
 </body>

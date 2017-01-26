@@ -226,6 +226,9 @@ DAT.Globe = function(container, opts){
 			opts.name = opts.name || 'morphTarget' + this._morphTargetId;
 		}
 		var subgeo = new THREE.Geometry();
+		if (opts.name) {
+			subgeo.name = opts.name;
+		}
 		for (i = 0; i < data.length; i += step) {
 			lat = data[i];
 			lng = data[i + 1];
@@ -250,6 +253,7 @@ DAT.Globe = function(container, opts){
 					vertexColors: THREE.FaceColors,
 					morphTargets: false
 				}));
+				this.points.name = this._baseGeometry.name;
 			} else {
 				if (this._baseGeometry.morphTargets.length < 8) {
 					var padding = 8 - this._baseGeometry.morphTargets.length;

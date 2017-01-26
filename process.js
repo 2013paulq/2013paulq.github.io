@@ -13,10 +13,9 @@ let output = contributions.map((contribution, index) =>{
 		mappedContribution.continent = contribution.continent.length ? contribution.continent : previousContinent;
 		mappedContribution.country = contribution.country.length ? contribution.country : previousCountry;
 		mappedContribution.city = (contribution.city !== '-') ? contribution.city : previousCity;
-		mappedContribution.latitude = contribution.latitude ? contribution.latitude : previousLatitude;
-		mappedContribution.longitude = contribution.longitude ? contribution.longitude : previousLongitude;
+		mappedContribution.latitude = (contribution.city !== "") ? (contribution.latitude ? contribution.latitude : previousLatitude) : null;
+		mappedContribution.longitude = (contribution.city !== "") ? (contribution.longitude ? contribution.longitude : previousLongitude) : null;
 
-		mappedContribution.name = contribution.name;
 		mappedContribution.text = contribution.text;
 		mappedContribution.index = index;
 
