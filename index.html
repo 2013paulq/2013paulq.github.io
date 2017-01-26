@@ -5,6 +5,8 @@
     <meta charset="utf-8">
 
     <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
+    <link href="/third-party/foundation/css/foundation.css" rel="stylesheet">
+    <link href="/third-party/perfect-scrollbar.min.css" rel="stylesheet">
 
     <style type="text/css">
         html {
@@ -14,7 +16,7 @@
         body {
             margin: 0;
             padding: 0;
-            background: #1E1E1E url(/loading.gif) center center no-repeat;
+            background: #000 url(/loading.gif) center center no-repeat;
             color: #ffffff;
             height: 100%;
         }
@@ -26,39 +28,200 @@
             justify-content: center;
 
             position: absolute;
-            top: 50%;
+            top: 2rem;
             left: 50%;
             transform: translate(-50%, -50%);
-            text-align: center;
-
-            background: rgba(0, 0, 0, .5);
-            padding: 2rem;
 
             color: #ddd;
-            font-size: 1.25rem;
             font-family: Play;
-            border-radius: 100%;
         }
 
-        #search > div {
-            margin: 1rem 0;
+        #search input {
+            background: #000;
+            color: #999;
+            border: 1px solid #333;
+            font-size: 1rem;
+            padding: .5rem;
+            width: 200px;
+            border-radius: 3px;
         }
 
-        #search > div .location {
 
+        #search input.tt-hint {
+            color: #666;
         }
 
-        #search > div .message {
-
+        .tt-menu {
+            background: rgba(0,0,0,.85);
+            font-size: .925rem;
+            width: 340px;
         }
 
+        .suggestion {
+            border-bottom: 1px solid #333;
+            padding: .5rem 1.5rem;
+            cursor: pointer;
+        }
+
+        .name {
+            color: #666;
+            font-size: .875rem;
+            padding-bottom: .5rem;
+        }
+
+        .suggestion:hover .name {
+            color: #777;
+        }
+
+        #archive {
+            position: absolute;
+            top: 100px;
+            left: 50px;
+            width: 360px;
+            max-height: 600px;
+            overflow: hidden;
+        }
+
+        #archive ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        #archive h3 {
+            font-family: Play;
+            font-size: 1.25rem;
+            color: #2ba6cb;
+        }
+
+        #archive a {
+            color: #FFF;
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
+            font-family: Play;
+            min-height: 2rem;
+        }
+
+        #archive a:hover {
+            color: #777;
+        }
+
+        .archive_message{
+            margin-bottom: 1rem;
+        }
+
+        #message {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,.5);
+            border-radius: 1rem;
+            padding: 1rem;
+            max-width: 40rem;
+            max-height: 50vh;
+            overflow: hidden;
+        }
+
+        .message-animation {
+            animation: message-animation 20s;
+            animation-timing-function: ease-in;
+        }
+
+        #message .text {
+            font-style: italic;
+            font-size: 1.5rem;
+        }
+
+        #message .text:before {
+            color: #777;
+            content: open-quote;
+            font-size: 2em;
+            line-height: 0.1em;
+            margin-right: 0.25em;
+            vertical-align: -0.2em;
+        }
+        #message .text:after {
+            color: #777;
+            content: close-quote;
+            font-size: 2em;
+            line-height: 0.1em;
+            margin-right: 0.25em;
+            vertical-align: -0.2em;
+        }
+
+        #message .title {
+            text-align: right;
+            font-size: 1rem;
+        }
+
+        #message .title:before {
+            content: "—";
+            margin-right: 0.25em;
+        }
+
+        #message.long {
+            animation: long-message-animation 10s;
+            animation-timing-function: ease-in;
+            padding: 3rem;
+            opacity: 1;
+            background: rgba(0,0,0,.75);
+        }
+
+        #message.long .text {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            font-style: normal;
+            margin-bottom: 1rem;
+        }
+
+        .ps-scrollbar-y-rail {
+            z-index: 20;
+        }
+        
+        @keyframes message-animation {
+            0% {
+                top: 50%;
+                opacity: 0;
+            }
+
+            2% {
+                opacity: 1;
+            }
+
+            75% {
+                top: 50%;
+                opacity: 1;
+            }
+
+            100% {
+                top: 40%;
+                opacity: 0;
+            }
+        }
+
+        @keyframes long-message-animation {
+            0% {
+                opacity: 0;
+            }
+
+            5% {
+                opacity: 1;
+            }
+        }
+
+        .is-drilldown-submenu {
+            background: #000;
+        }
     </style>
 </head>
 <body>
 
 <div id="container"></div>
 <div id="search">
-    <div class="">
+    <input placeholder="Search" autocomplete="off" />
+<!--    <div class="">
         <div class="location" onmouseover="settime(globe,0)()">A</div>
     </div>
 
@@ -68,58 +231,198 @@
 
     <div class="">
         <div class="location" onmouseover="settime(globe,2)()">C</div>
-    </div>
+    </div>-->
 </div>
+<div id="archive">
+    <h3>Messages</h3>
+    <ul class="vertical menu" data-drilldown id="archive_menu">
 
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="/jquery.mousewheel.min.js"></script>-->
+    </ul>
+</div>
+<blockquote id="message">
+    <div class="text" id="message_text"></div>
+    <div class="title" id="message_title"></div>
+</blockquote>
+
+<script>
+    function showMessage(suggestion){
+    	if (typeof suggestion === 'string') {
+    		suggestion = JSON.parse(suggestion);
+        }
+
+    	$('#message_text').text(suggestion.text);
+    	$('#message_title').text((suggestion.city || "")+((suggestion.country && suggestion.city) ? ", " : "")+(suggestion.country || ""));
+    	var $message = $('#message');
+    	$message.perfectScrollbar('update');
+
+    	if (suggestion.text.length < 300) {
+		    $message.removeClass('message-animation long');
+		    void $message[0].offsetWidth;
+		    $message.addClass('message-animation');
+        } else {
+		    $message.removeClass('message-animation').addClass('long');
+        }
+
+	    drawSpike(suggestion);
+    }
+
+    function drawSpike(suggestion ){
+	    var sameSpot = lines.filter(function(contribution){return contribution.latitude === suggestion.latitude && contribution.longitude === suggestion.longitude});
+	    globe.addData([suggestion.latitude, suggestion.longitude, sameSpot.length*0.02], {format: 'magnitude', name: suggestion.city, animated: false});
+	    globe.createPoints();
+	    settime(globe, selectionCount++)();
+    }
+</script>
+
+<script id="menu-template" type="text/x-handlebars-template">
+    {{#each continents}}
+        <li>
+            <a href="#">{{@key}}</a>
+            <ul class="vertical menu">
+                {{#each this}}
+                <li>
+                    <a href="">{{@key}}</a>
+                    <ul class="vertical menu">
+                        {{#each this}}
+                        <li>
+                            <a href="">{{@key}}</a>
+                            <ul class="vertical menu">
+                                {{#each this}}
+                                    <li class="archive_message"><a onClick="showMessage({{suggestion}})">{{message}}</a></li>
+                                {{/each}}
+                            </ul>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </li>
+                {{/each}}
+            </ul>
+        </li>
+    {{/each}}
+</script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="/jquery.mousewheel.min.js"></script>
 
 <script src="/third-party/Detector.js"></script>
 <script src="/third-party/three.min.js"></script>
 <script src="/third-party/Tween.js"></script>
+<script src="/third-party/foundation/js/vendor/foundation.js"></script>
+<script src="/third-party/foundation/js/vendor/foundation.util.box.min.js"></script>
 <script src="/globe.js"></script>
+<script src="/bloodhound.min.js"></script>
+<script src="/typeahead.jquery.min.js"></script>
+<script src="/third-party/perfect-scrollbar.jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 <script>
 
     if (!Detector.webgl) {
         Detector.addGetWebGLMessage();
     } else {
 
-        var years = ['1990', '1995', '2000'];
         var container = document.getElementById('container');
         var globe = new DAT.Globe(container);
 
         var i, tweens = [];
 
+        var selectionCount = 0;
+
         var settime = function(globe, t){
             return function(){
-                new TWEEN.Tween(globe).to({time: t / years.length}, 500).easing(TWEEN.Easing.Cubic.EaseOut).start();
+                new TWEEN.Tween(globe).to({time: selectionCount}, 500).easing(TWEEN.Easing.Cubic.EaseOut).start();
             };
         };
 
-        var xhr;
         TWEEN.start();
-
-
-        xhr = new XMLHttpRequest();
-        xhr.open('GET', '/cities.json', true);
-        xhr.onreadystatechange = function(e){
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    var data = JSON.parse(xhr.responseText);
-                    for (i = 0; i < data.length; i++) {
-                        globe.addData(data[i][1], {format: 'magnitude', name: data[i][0], animated: true});
-                    }
-                    globe.createPoints();
-                    settime(globe, 0)();
-                    globe.renderIss();
-                    globe.animate();
-                    document.body.style.backgroundImage = 'none'; // remove loading
-                }
-            }
-        };
-        xhr.send(null);
     }
 
+    var lines = [];
+
+    $.getJSON('/output.json', function(data) {
+       lines = data;
+
+        var previousLongitude = null, previousLatitude = null;
+
+        for (var i = 0; i < lines.length; i++) {
+            if (lines[i].longitude !== previousLongitude || lines[i].latitude !== previousLatitude) {
+                var sameSpot = lines.filter(function(contribution){return contribution.latitude === lines[i].latitude && contribution.longitude === lines[i].longitude});
+                globe.addData([lines[i].latitude, lines[i].longitude, sameSpot.length * 0.02], {
+                    format: 'magnitude',
+                    name: lines[i].city,
+                    animated: true
+                });
+
+                previousLongitude = lines[i].longitude;
+                previousLatitude = lines[i].latitude;
+            }
+        }
+
+        globe.createPoints();
+        globe.renderIss();
+        globe.animate();
+        document.body.style.backgroundImage = 'none';
+
+        var tree = {
+        	continents: {}
+        };
+
+        data.forEach(function(datum){
+        	if (!tree.continents[datum.continent]) {
+        		tree.continents[datum.continent] = {};
+            }
+	        if (!tree.continents[datum.continent][datum.country]) {
+		        tree.continents[datum.continent][datum.country] = {};
+	        }
+	        if (!tree.continents[datum.continent][datum.country][datum.city]) {
+		        tree.continents[datum.continent][datum.country][datum.city] = [];
+	        }
+
+            tree.continents[datum.continent][datum.country][datum.city].push({message: datum.text, suggestion: JSON.stringify(datum)});
+        });
+
+	    Handlebars.registerHelper('escape', function(variable) {
+		    return variable.replace(/(['"])/g, '\\$1');
+	    });
+
+	    var source   = $("#menu-template").html();
+	    var template = Handlebars.compile(source);
+	    $('#archive_menu').html(template(tree));
+	    new Foundation.Drilldown($('#archive_menu'),{
+		    autoHeight: true
+	    });
+
+	    $('#archive_menu').on('open.zf.drilldown hide.zf.drilldown', function(){
+	    	$('#archive').scrollTop(0).perfectScrollbar('update');
+        });
+
+	    $('#archive').perfectScrollbar();
+    });
+
+    $('#message').perfectScrollbar();
+
+    Handlebars.registerHelper('trimString', function(string) {
+        return new Handlebars.SafeString(string.toString().substr(0, 75)+(string.toString().length > 75 ? '...' : ''));
+    });
+
+    var contributions = new Bloodhound({
+        prefetch: '/output.json',
+        datumTokenizer: function(datum) { return (datum.country+' '+datum.city+' '+datum.text).split(' ')},
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        identify: function(datum) { return datum.index }
+    });
+
+    $('input').typeahead(null,{
+        name: 'contributions',
+        source: contributions,
+        display: function(suggestion) { return suggestion.name+' '+suggestion.city+' '+suggestion.country},
+        templates: {
+            suggestion: Handlebars.compile('<div class="suggestion"><div class="name">' +
+                    '{{#if city}}{{city}}, {{/if}}' +
+                    '{{country}}</div><div class="text">{{trimString text}}</div></div>')
+        }
+    }).on('typeahead:select', function(env, suggestion) {
+        showMessage(suggestion);
+    });
 </script>
 </body>
 

@@ -109,6 +109,7 @@ DAT.Globe = function(container, opts){
 
 		container.style.color = '#fff';
 		container.style.font = '13px/20px Arial, sans-serif';
+		container.style.background = 'transparent';
 
 		var shader, uniforms, material;
 		w = container.offsetWidth || window.innerWidth;
@@ -212,9 +213,8 @@ DAT.Globe = function(container, opts){
 				for (i = 0; i < data.length; i += step) {
 					lat = data[i];
 					lng = data[i + 1];
-//        size = data[i + 2];
+			        size = data[i + 2];
 					color = colorFnWrapper(data, i);
-					size = 0;
 					addPoint(lat, lng, size, color, this._baseGeometry);
 				}
 			}
@@ -475,26 +475,28 @@ DAT.Globe = function(container, opts){
 
 	this.__defineSetter__('time', function(t){
 		var validMorphs = [];
-		var morphDict = this.points.morphTargetDictionary;
-		for (var k in morphDict) {
-			if (k.indexOf('morphPadding') < 0) {
-				validMorphs.push(morphDict[k]);
+		if (this.points.morphTargetDictionary) {
+			var morphDict = this.points.morphTargetDictionary;
+			for (var k in morphDict) {
+				if (k.indexOf('morphPadding') < 0) {
+					validMorphs.push(morphDict[k]);
+				}
 			}
+			validMorphs.sort();
+			var l = validMorphs.length - 1;
+			var scaledt = t * l + 1;
+			var index = Math.floor(scaledt);
+			for (i = 0; i < validMorphs.length; i++) {
+				this.points.morphTargetInfluences[validMorphs[i]] = 0;
+			}
+			var lastIndex = index - 1;
+			var leftover = scaledt - index;
+			if (lastIndex >= 0) {
+				this.points.morphTargetInfluences[lastIndex] = 1 - leftover;
+			}
+			this.points.morphTargetInfluences[index] = leftover;
+			this._time = t;
 		}
-		validMorphs.sort();
-		var l = validMorphs.length - 1;
-		var scaledt = t * l + 1;
-		var index = Math.floor(scaledt);
-		for (i = 0; i < validMorphs.length; i++) {
-			this.points.morphTargetInfluences[validMorphs[i]] = 0;
-		}
-		var lastIndex = index - 1;
-		var leftover = scaledt - index;
-		if (lastIndex >= 0) {
-			this.points.morphTargetInfluences[lastIndex] = 1 - leftover;
-		}
-		this.points.morphTargetInfluences[index] = leftover;
-		this._time = t;
 	});
 
 	this.addData = addData;
