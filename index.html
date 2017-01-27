@@ -1,546 +1,73 @@
 <!DOCTYPE HTML>
 <html lang="en">
-<head>
+  <head>
     <title>WebGL Globe</title>
     <meta charset="utf-8">
-
-    <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
-    <link href="/third-party/foundation/css/foundation.css" rel="stylesheet">
-    <link href="/third-party/perfect-scrollbar.min.css" rel="stylesheet">
-
     <style type="text/css">
-        html {
-            height: 100%;
-        }
+      html {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background: #1E1E1E url(/star.jpg) center center no-repeat;
+        color: #ffffff;
+        height: 100%;
+      }
 
-        body {
-            margin: 0;
-            padding: 0;
-            background: #000 url(/loading.gif) center center no-repeat;
-            color: #ffffff;
-            height: 100%;
-        }
-
-        #search {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            position: absolute;
-            top: 2rem;
-            left: 50%;
-            transform: translate(-50%, -50%);
-
-            color: #ddd;
-            font-family: Play;
-        }
-
-        #search input {
-            background: #000;
-            color: #999;
-            border: 1px solid #333;
-            font-size: 1rem;
-            padding: .5rem;
-            width: 200px;
-            border-radius: 3px;
-        }
-
-
-        #search input.tt-hint {
-            color: #666;
-        }
-
-        .tt-menu {
-            background: rgba(0,0,0,.85);
-            font-size: .925rem;
-            width: 340px;
-        }
-
-        .suggestion {
-            border-bottom: 1px solid #333;
-            padding: .5rem 1.5rem;
-            cursor: pointer;
-        }
-
-        .name {
-            color: #666;
-            font-size: .875rem;
-            padding-bottom: .5rem;
-        }
-
-        .suggestion:hover .name {
-            color: #777;
-        }
-
-        #archive {
-            position: absolute;
-            top: 100px;
-            left: 50px;
-            width: 360px;
-            max-height: 600px;
-            overflow: hidden;
-        }
-
-        #archive ul {
-            padding: 0;
-            margin: 0;
-        }
-
-        #archive h3 {
-            font-family: Play;
-            font-size: 1.25rem;
-            color: #2ba6cb;
-        }
-
-        #archive a {
-            color: #FFF;
-            text-decoration: none;
-            display: block;
-            cursor: pointer;
-            font-family: Play;
-            min-height: 2rem;
-        }
-
-        #archive a:hover {
-            color: #777;
-        }
-
-        .archive_message{
-            margin-bottom: .75rem;
-            padding-top: .75rem;
-            border-top: 1px solid #222;
-        }
-
-        #message {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            opacity: 0;
-            transform: translate(-50%, -50%);
-            background: rgba(0,0,0,.5);
-            border-radius: 1rem;
-            padding: 1rem;
-            max-width: 40rem;
-            max-height: 50vh;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .message-animation {
-            animation: message-animation 20s;
-            animation-timing-function: ease-in;
-        }
-
-        #message .text {
-            font-style: italic;
-            font-size: 1.5rem;
-        }
-
-        #message .text:before {
-            color: #777;
-            content: open-quote;
-            font-size: 2em;
-            line-height: 0.1em;
-            margin-right: 0.25em;
-            vertical-align: -0.2em;
-        }
-        #message .text:after {
-            color: #777;
-            content: close-quote;
-            font-size: 2em;
-            line-height: 0.1em;
-            margin-right: 0.25em;
-            vertical-align: -0.2em;
-        }
-
-        #message .title {
-            text-align: right;
-            font-size: 1rem;
-        }
-
-        #message .title:before {
-            content: "—";
-            margin-right: 0.25em;
-        }
-
-        #message.long {
-            animation: long-message-animation 10s;
-            animation-timing-function: ease-in;
-            padding: 3rem;
-            opacity: 1;
-            background: rgba(0,0,0,.75);
-        }
-
-        #message.long .text {
-            font-size: 1.125rem;
-            line-height: 1.6;
-            font-style: normal;
-            margin-bottom: 1rem;
-        }
-
-        .ps-scrollbar-y-rail {
-            z-index: 20;
-        }
-
-        @keyframes message-animation {
-            0% {
-                top: 50%;
-                opacity: 0;
-                pointer-events: auto;
-            }
-
-            2% {
-                opacity: 1;
-            }
-
-            75% {
-                top: 50%;
-                opacity: 1;
-            }
-
-            100% {
-                top: 40%;
-                opacity: 0;
-            }
-        }
-
-        @keyframes long-message-animation {
-            0% {
-                opacity: 0;
-            }
-
-            5% {
-                opacity: 1;
-            }
-        }
-
-        .is-drilldown-submenu {
-            background: #000;
-        }
     </style>
-</head>
-<body>
+  </head>
+  <body>
 
-<div id="container"></div>
-<div id="search">
-    <input placeholder="Search" autocomplete="off" />
-<!--    <div class="">
-        <div class="location" onmouseover="settime(globe,0)()">A</div>
-    </div>
+  <div id="container"></div>
 
-    <div class="">
-        <div class="location" onmouseover="settime(globe,1)()">B</div>
-    </div>
-
-    <div class="">
-        <div class="location" onmouseover="settime(globe,2)()">C</div>
-    </div>-->
-</div>
-<div id="archive">
-    <h3>Message Catalogue</h3>
-    <ul class="vertical menu" data-drilldown id="archive_menu">
-
-    </ul>
-</div>
-<blockquote id="message">
-    <div class="text" id="message_text"></div>
-    <div class="title" id="message_title"></div>
-</blockquote>
-
-<script>
-    function showMessage(index){
-    	var contribution = $.grep(lines, function(line){ return line.index === index})[0];
-    	$('#message_text').text(contribution.text);
-    	$('#message_title').text((contribution.city || "")+((contribution.country && contribution.city) ? ", " : "")+(contribution.country || ""));
-    	var $message = $('#message');
-    	$message.perfectScrollbar('update');
-
-    	if (contribution.text.length < 300) {
-		    $message.removeClass('message-animation long');
-		    void $message[0].offsetWidth;
-		    $message.addClass('message-animation');
-        } else {
-		    $message.removeClass('message-animation').addClass('long');
-        }
-    }
-
-    function drawSpike(contribution ){
-	    globe.addData([contribution.latitude, contribution.longitude, getSameSpot(contribution.latitude, contribution.longitude).length*0.02], {format: 'magnitude', name: 'l'+contribution.index, animated: false});
-	    globe.createPoints();
-	    //settime(globe, selectionCount++)();
-    }
-
-    function getSameSpot(latitude, longitude) {
-	    return lines.filter(function(line){return line.latitude === latitude && line.longitude === longitude});
-    }
-
-    function highlightCity(city, country, clear) {
-	    if (clear !== false) {
-		    clearSpikes();
-	    }
-        var contribution = $.grep(lines, function(line){ return line.city === city && line.country === country})[0];
-        if (clear !== false) {
-	        parentView = {type: "country", country: country, continent: contribution.continent};
-        }
-        drawSpike(contribution);
-    }
-
-    function highlightCountry(country, continent, clear) {
-    	if (clear !== false) {
-    		clearSpikes();
-		    parentView = {type: "continent", continent: continent};
-        }
-    	Object.keys(tree[continent][country]).forEach(function(city){highlightCity(city, country, false)});
-    }
-
-    function highlightContinent(continent) {
-    	clearSpikes();
-	    parentView = {type: "all"};
-	    Object.keys(tree[continent]).forEach(function(country){highlightCountry(country, continent, false)});
-    }
-
-    function highlightAll(){
-	    var previousLongitude = null, previousLatitude = null;
-	    parentView = {};
-
-	    for (var i = 0; i < lines.length; i++) {
-		    if (lines[i].longitude && lines[i].latitude && (lines[i].longitude !== previousLongitude || lines[i].latitude !== previousLatitude)) {
-			    globe.addData([lines[i].latitude, lines[i].longitude, getSameSpot(lines[i].latitude, lines[i].longitude).length*0.02], {
-				    format: 'magnitude',
-				    name: 'l'+lines[i].index,
-				    animated: false
-			    });
-
-			    previousLongitude = lines[i].longitude;
-			    previousLatitude = lines[i].latitude;
-
-			    globe.createPoints();
-		    }
-	    }
-    }
-
-    function clearSpikes(){
-    	lines.forEach(function(line){
-    		var object;
-    		while (object = globe.scene.getObjectByName('l'+line.index)) {
-    			globe.scene.remove(object);
-            }
-        });
-    }
-
-    function handleBack(){
-    	switch (parentView.type) {
-            case 'all':
-                highlightAll();
-            	break;
-            case 'continent':
-            	highlightContinent(parentView.continent);
-            	break;
-            case 'country':
-            	highlightCountry(parentView.country, parentView.continent);
-            	break;
-        }
-    }
-</script>
-
-<script id="menu-template" type="text/x-handlebars-template">
-    {{#each this}}
-        {{#ifCond @key "Other"}}
-            <li>
-                <a href="#" onClick="highlightContinent('{{@key}}')">{{@key}}</a>
-                <ul class="vertical menu">
-                    {{#each this}}
-                        <li class="archive_message"><a onClick="showMessage({{index}})">{{trimArchiveString message}}</a></li>
-                    {{/each}}
-                </ul>
-            </li>
-        {{else}}
-            {{#ifCond @key "Honorary Mentions"}}
-                <li>
-                    <a href="#" onClick="highlightContinent('{{@key}}')">{{@key}}</a>
-                    <ul class="vertical menu">
-                        {{#each this}}
-                        <li>
-                            <a href="" onClick="highlightCountry('{{@key}}','{{@../key}}')">{{@key}}</a>
-                            <ul class="vertical menu">
-                                {{#each this}}
-                                <li class="archive_message"><a onClick="showMessage({{index}})">{{trimArchiveString message}}</a></li>
-                                {{/each}}
-                            </ul>
-                        </li>
-                        {{/each}}
-                    </ul>
-                </li>
-            {{else}}
-                <li>
-                    <a href="#" onClick="highlightContinent('{{@key}}')">{{@key}}</a>
-                    <ul class="vertical menu">
-                        {{#each this}}
-                        <li>
-                            <a href="" onClick="highlightCountry('{{@key}}','{{@../key}}')">{{@key}}</a>
-                            <ul class="vertical menu">
-                                {{#each this}}
-                                <li>
-                                    <a href="" onClick="highlightCity('{{@key}}','{{@../key}}')">{{@key}}</a>
-                                    <ul class="vertical menu">
-                                        {{#each this}}
-                                        <li class="archive_message"><a onClick="showMessage({{index}})">{{trimArchiveString message}}</a></li>
-                                        {{/each}}
-                                    </ul>
-                                </li>
-                                {{/each}}
-                            </ul>
-                        </li>
-                        {{/each}}
-                    </ul>
-                </li>
-            {{/ifCond}}
-        {{/ifCond}}
-    {{/each}}
-</script>
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="/jquery.mousewheel.min.js"></script>
-
-<script src="/third-party/Detector.js"></script>
-<script src="/third-party/three.min.js"></script>
-<script src="/third-party/Tween.js"></script>
-<script src="/third-party/foundation/js/vendor/foundation.js"></script>
-<script src="/third-party/foundation/js/vendor/foundation.util.box.min.js"></script>
-<script src="/globe.js"></script>
-<script src="/bloodhound.min.js"></script>
-<script src="/typeahead.jquery.min.js"></script>
-<script src="/third-party/perfect-scrollbar.jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
-<script>
-
-    if (!Detector.webgl) {
-        Detector.addGetWebGLMessage();
+  <script type="text/javascript" src="/third-party/Detector.js"></script>
+  <script type="text/javascript" src="/third-party/three.min.js"></script>
+  <script type="text/javascript" src="/third-party/Tween.js"></script>
+  <script type="text/javascript" src="/globe.js"></script>
+  <script type="text/javascript">
+  
+    if(!Detector.webgl){
+      Detector.addGetWebGLMessage();
     } else {
-        var container = document.getElementById('container');
-        var globe = new DAT.Globe(container);
-        TWEEN.start();
+
+      var years = ['1990','1995','2000'];
+      var container = document.getElementById('container');
+      var globe = new DAT.Globe(container);
+
+      var i, tweens = [];
+      
+      var settime = function(globe, t) {
+        return function() {
+          new TWEEN.Tween(globe).to({time: t/years.length},500).easing(TWEEN.Easing.Cubic.EaseOut).start();
+        };
+      };
+      
+      var xhr;
+      TWEEN.start();
+      
+      
+      xhr = new XMLHttpRequest();
+      xhr.open('GET', '/cities.json', true);
+      xhr.onreadystatechange = function(e) {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            for (i=0;i<data.length;i++) {
+              globe.addData(data[i][1], {format: 'magnitude', name: data[i][0], animated: true});
+            }
+            globe.createPoints();
+            settime(globe,0)();
+            globe.renderIss();
+            globe.animate();
+            document.body.style.backgroundImage = 'none'; // remove loading
+          }
+        }
+      };
+      xhr.send(null);
     }
 
-    var lines = [];
-    var tree = {};
-    var parentView;
-
-    $.getJSON('/output.json', function(data) {
-       lines = data;
-
-        // Construct tree
-	    data.forEach(function(datum){
-	    	if (datum.continent === "Other") {
-	    		if (!tree[datum.continent]) {
-	    			tree[datum.continent] = [];
-                }
-	    		tree[datum.continent].push({message: datum.text, index: datum.index});
-            } else if (datum.continent === "Honorary Mentions") {
-			    if (!tree[datum.continent]) {
-				    tree[datum.continent] = {};
-			    }
-			    if (!tree[datum.continent][datum.country]) {
-				    tree[datum.continent][datum.country] = [];
-			    }
-			    tree[datum.continent][datum.country].push({message: datum.text, index: datum.index});
-            } else {
-			    if (!tree[datum.continent]) {
-				    tree[datum.continent] = {};
-			    }
-			    if (!tree[datum.continent][datum.country]) {
-				    tree[datum.continent][datum.country] = {};
-			    }
-			    if (!tree[datum.continent][datum.country][datum.city]) {
-				    tree[datum.continent][datum.country][datum.city] = [];
-			    }
-
-			    tree[datum.continent][datum.country][datum.city].push({message: datum.text, index: datum.index});
-            }
-	    });
-
-	    Object.keys(tree).forEach(function(continent){
-	    	if (continent !== "Other" && continent !== "Honorable Mentions") {
-	    		Object.keys(tree[continent]).forEach(function(country){
-	    			const orderedCountry = {};
-				    Object.keys(tree[continent][country]).sort().forEach(function(city) {
-                        orderedCountry[city] = tree[continent][country][city];
-				    });
-				    tree[continent][country] = orderedCountry;
-                })
-            }
-        });
-
-        highlightAll();
-
-        globe.renderIss();
-        globe.animate();
-        document.body.style.backgroundImage = 'none';
-
-	    Handlebars.registerHelper('escape', function(variable) {
-		    return variable.replace(/(['"])/g, '\\$1');
-	    });
-
-	    var source   = $("#menu-template").html();
-	    var template = Handlebars.compile(source);
-	    $('#archive_menu').html(template(tree));
-	    new Foundation.Drilldown($('#archive_menu'),{
-		    autoHeight: true
-	    });
-
-	    $('#archive_menu').on('open.zf.drilldown hide.zf.drilldown closed.zf.drilldown', function(e){
-		    $('#archive').scrollTop(0).perfectScrollbar('update');
-	    	if (e.type === 'hide') {
-			    handleBack();
-            }
-        });
-
-	    $('#archive').perfectScrollbar();
-    });
-
-    $('#message').perfectScrollbar();
-
-    Handlebars.registerHelper('trimString', function(string) {
-        return new Handlebars.SafeString(string.toString().substr(0, 75)+(string.toString().length > 75 ? '...' : ''));
-    });
-
-    Handlebars.registerHelper('trimArchiveString', function(string) {
-	    return new Handlebars.SafeString(string.toString().substr(0, 188)+(string.toString().length > 188 ? '...' : ''));
-    });
-
-    Handlebars.registerHelper('ifCond', function(v1, v2, options) {
-	    if(v1 === v2) {
-		    return options.fn(this);
-	    }
-	    return options.inverse(this);
-    });
-
-    var contributions = new Bloodhound({
-        prefetch: '/output.json',
-        datumTokenizer: function(datum) { return (datum.country+' '+datum.city+' '+datum.text).split(' ')},
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        identify: function(datum) { return datum.index }
-    });
-
-    $('input').typeahead(null,{
-        name: 'contributions',
-        source: contributions,
-        display: function(suggestion) { return suggestion.city+' '+suggestion.country},
-        templates: {
-            suggestion: Handlebars.compile('<div class="suggestion"><div class="name">' +
-                    '{{#if city}}{{city}}, {{/if}}' +
-                    '{{country}}</div><div class="text">{{trimString text}}</div></div>')
-        }
-    }).on('typeahead:select', function(env, suggestion) {
-    	console.log(suggestion);
-    	clearSpikes();
-    	if (suggestion.longitude && suggestion.latitude) {
-		    drawSpike(suggestion);
-        }
-        showMessage(suggestion.index);
-    });
-</script>
-</body>
+  </script>
+  </body>
 
 </html>
