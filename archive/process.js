@@ -10,8 +10,10 @@ let output = contributions.map((contribution, index) =>{
 	if (contribution.text.length) {
 		let mappedContribution = {};
 
-		mappedContribution.continent = contribution.continent.length ? contribution.continent : previousContinent;
-		mappedContribution.country = contribution.country.length ? contribution.country : previousCountry;
+		let continent = contribution.continent.length ? contribution.continent : previousContinent;
+
+		mappedContribution.continent = continent;
+		mappedContribution.country = contribution.country.length ? contribution.country : (continent !== 'Other' ? previousCountry : null);
 		mappedContribution.city = (contribution.city !== '-') ? contribution.city : previousCity;
 		mappedContribution.latitude = (contribution.city !== "") ? (contribution.latitude ? contribution.latitude : previousLatitude) : null;
 		mappedContribution.longitude = (contribution.city !== "") ? (contribution.longitude ? contribution.longitude : previousLongitude) : null;

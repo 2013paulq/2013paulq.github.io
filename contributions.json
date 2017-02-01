@@ -1403,7 +1403,7 @@
     "continent": "",
     "country": "",
     "": "",
-    "city": "Cranbourne North (Melbourne)",
+    "city": "Cranbourne",
     "Mag:": 1,
     "latitude": -38.0774839,
     "longitude": 145.2809051,
@@ -2215,8 +2215,8 @@
     "": 1,
     "city": "Bridgetown",
     "Mag:": 1,
-    "latitude": 13.1013111,
-    "longitude": -59.600893,
+    "latitude": 13.1013929,
+    "longitude": -59.6315351,
     "text": "Erasing the footprints of the past can only be achieved with appropriate levels of ecological knowledge and responsibility, driven by today."
   },
   {
@@ -6748,26 +6748,6 @@
     "latitude": 19.0379183,
     "longitude": -70.8990704,
     "text": "Los humanos hemos utilizado pródigamente los recursos naturales,pero nos estamos excediendo,en el futuro no tendremos NADA por intentar tener todo.Nos falta AMOR y DIOS."
-  },
-  {
-    "continent": "",
-    "country": "",
-    "": "",
-    "city": "Gijón",
-    "Mag:": 2,
-    "latitude": 43.5370682,
-    "longitude": -5.6609328,
-    "text": "Este planeta cada día grita a viva voz una llamada de auxilio, el daño al mismo es inimaginable, lo peor es que no hacemos nada para cambiarlo. Es nuestro hogar, y se muere"
-  },
-  {
-    "continent": "",
-    "country": "",
-    "": "",
-    "city": "-",
-    "Mag:": "",
-    "latitude": "",
-    "longitude": "",
-    "text": "Negatively"
   },
   {
     "continent": "Africa",
@@ -12845,8 +12825,8 @@
     "": "",
     "city": "Longford",
     "Mag:": 1,
-    "latitude": 51.4707688,
-    "longitude": -0.4782744,
+    "latitude": 53.7266057,
+    "longitude": -7.8292494,
     "text": "People need to look at the future as an opportunity! Sure we may have faltered in our existence up to this point but we still have time to act and change for the better!"
   },
   {
@@ -14260,14 +14240,24 @@
     "text": "As old inhabitants of the Easter island, human beings will realize to be in a trap called Earth too late, without resources anymore to exploit, without a way out. HELP us!"
   },
   {
-    "continent": "",
+    "continent": "X",
     "country": "",
     "": "",
     "city": "Pordenone",
-    "Mag:": 1,
+    "Mag:": 2,
     "latitude": 45.9571361,
     "longitude": 12.6288271,
     "text": "I hope, always I hope"
+  },
+  {
+    "continent": "",
+    "country": "",
+    "": "",
+    "city": "-",
+    "Mag:": "",
+    "latitude": "",
+    "longitude": "",
+    "text": "We are a part of a natural world called Universe: a good or bad future will be influenced just only by a natural selection"
   },
   {
     "continent": "",
@@ -14883,16 +14873,6 @@
     "continent": "",
     "country": "",
     "": "",
-    "city": "Pasiano di Pordenone",
-    "Mag:": 1,
-    "latitude": 45.8490405,
-    "longitude": 12.6166261,
-    "text": "We are a part of a natural world called Universe: a good or bad future will be influenced just only by a natural selection"
-  },
-  {
-    "continent": "",
-    "country": "",
-    "": "",
     "city": "Cosenza",
     "Mag:": 1,
     "latitude": 39.3047948,
@@ -15238,6 +15218,16 @@
     "latitude": 45.1532839,
     "longitude": 7.8203639,
     "text": "Like water drops hollow rocks, shape valleys and make big oceans, every little and simple but conscious and dedicated action of everyone will effectively contribute to preserving our planet."
+  },
+  {
+    "continent": "",
+    "country": "",
+    "": "",
+    "city": "Montecatini Terme",
+    "Mag:": 1,
+    "latitude": 43.8685086,
+    "longitude": 10.7966227,
+    "text": "Se l'uomo continuerá ad inquinare e fregarsene della natura purtroppo non so se questo messaggio arriverá nel futuro"
   },
   {
     "continent": "Africa",
@@ -21580,6 +21570,16 @@
     "text": "Increasing awareness of our current actions could lead to a better future with more stable and healthier environment."
   },
   {
+    "continent": "",
+    "country": "",
+    "": "",
+    "city": "Orneta",
+    "Mag:": 1,
+    "latitude": 54.1158309,
+    "longitude": 20.1284172,
+    "text": "The Message must be send in binary code !"
+  },
+  {
     "continent": "Europe",
     "country": "Portugal",
     "": 1,
@@ -21688,16 +21688,6 @@
     "latitude": "",
     "longitude": "",
     "text": "Olá pessoas de outros planetas"
-  },
-  {
-    "continent": "",
-    "country": "",
-    "": "",
-    "city": "Orneta",
-    "Mag:": 1,
-    "latitude": 54.1158309,
-    "longitude": 20.1284172,
-    "text": "The Message must be send in binary code !"
   },
   {
     "continent": "",
@@ -25534,7 +25524,7 @@
     "country": "",
     "": "",
     "city": "Gijón",
-    "Mag:": 2,
+    "Mag:": 4,
     "latitude": 43.5314231,
     "longitude": -5.7034739,
     "text": "La modificación de la propia naturaleza de las cosas, una mutación constante he imperceptible ,tan misterioso he ignoto como la vida."
@@ -25548,6 +25538,26 @@
     "latitude": "",
     "longitude": "",
     "text": "Este es un mensaje de socorro , hay sobrepoblacion y los intereses personales de cada inviduo acabaran con el planeta aun tomando medidas ecologicas."
+  },
+  {
+    "continent": "",
+    "country": "",
+    "": "",
+    "city": "-",
+    "Mag:": "",
+    "latitude": "",
+    "longitude": "",
+    "text": "Este planeta cada día grita a viva voz una llamada de auxilio, el daño al mismo es inimaginable, lo peor es que no hacemos nada para cambiarlo. Es nuestro hogar, y se muere"
+  },
+  {
+    "continent": "",
+    "country": "",
+    "": "",
+    "city": "-",
+    "Mag:": "",
+    "latitude": "",
+    "longitude": "",
+    "text": "Negatively"
   },
   {
     "continent": "",
@@ -25598,16 +25608,6 @@
     "latitude": 41.6345416,
     "longitude": -4.767486,
     "text": "Mal pinta muy mal la cosa"
-  },
-  {
-    "continent": "",
-    "country": "",
-    "": "",
-    "city": "Monsummano Terme",
-    "Mag:": 1,
-    "latitude": 43.8684777,
-    "longitude": 10.7966227,
-    "text": "Se l'uomo continuerá ad inquinare e fregarsene della natura purtroppo non so se questo messaggio arriverá nel futuro"
   },
   {
     "continent": "",
@@ -37991,7 +37991,7 @@
   },
   {
     "continent": "",
-    "country": "Thimas H. Allen",
+    "country": "Thomas H. Allen",
     "": "",
     "city": "",
     "Mag:": "",
@@ -38601,7 +38601,7 @@
   },
   {
     "continent": "",
-    "country": "David Scott- Apollo 9 & 15",
+    "country": "David Scott",
     "": "",
     "city": "",
     "Mag:": "",
@@ -38761,7 +38761,7 @@
   },
   {
     "continent": "",
-    "country": "Al Worden- Apollo 15",
+    "country": "Al Worden",
     "": "",
     "city": "",
     "Mag:": "",
