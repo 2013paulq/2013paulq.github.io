@@ -77,7 +77,7 @@
             position: absolute;
             top: 100px;
             left: 50px;
-            width: 360px;
+            width: 300px;
             max-height: 600px;
             overflow: hidden;
         }
@@ -88,7 +88,7 @@
         }
 
         #archive h3 {
-            font-family: Play;
+            font-family: "Courier New", monospace;
             font-size: 1.25rem;
             color: #2ba6cb;
         }
@@ -122,7 +122,7 @@
             border-radius: 1rem;
             padding: 1rem;
             max-width: 40rem;
-            max-height: 50vh;
+            max-height: 66vh;
             overflow: hidden;
             pointer-events: none;
         }
@@ -212,6 +212,7 @@
 
             5% {
                 opacity: 1;
+                pointer-events: auto;
             }
         }
 
@@ -252,16 +253,21 @@
     function showMessage(index){
     	var contribution = $.grep(lines, function(line){ return line.index === index})[0];
     	$('#message_text').text(contribution.text);
-    	$('#message_title').text((contribution.city || "")+((contribution.country && contribution.city) ? ", " : "")+(contribution.country || ""));
+    	if (contribution.country || contribution.city) {
+		    $('#message_title').text((contribution.city || "")+((contribution.country && contribution.city) ? ", " : "")+(contribution.country || "")).show();
+        } else {
+		    $('#message_title').hide();
+        }
     	var $message = $('#message');
-    	$message.perfectScrollbar('update');
 
     	if (contribution.text.length < 300) {
 		    $message.removeClass('message-animation long');
+		    $message.perfectScrollbar('destroy');
 		    void $message[0].offsetWidth;
 		    $message.addClass('message-animation');
         } else {
 		    $message.removeClass('message-animation').addClass('long');
+		    $message.perfectScrollbar();
         }
     }
 
@@ -408,9 +414,9 @@
 <script src="/third-party/Tween.js"></script>
 <script src="/third-party/foundation/js/vendor/foundation.js"></script>
 <script src="/third-party/foundation/js/vendor/foundation.util.box.min.js"></script>
-<script src="/globe.js"></script>
-<script src="/bloodhound.min.js"></script>
-<script src="/typeahead.jquery.min.js"></script>
+<script src="./globe.js"></script>
+<script src="./bloodhound.min.js"></script>
+<script src="./typeahead.jquery.min.js"></script>
 <script src="/third-party/perfect-scrollbar.jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 <script>
@@ -427,7 +433,7 @@
     var tree = {};
     var parentView;
 
-    $.getJSON('/output.json', function(data) {
+    $.getJSON('./output.json', function(data) {
        lines = data;
 
         // Construct tree
@@ -517,7 +523,7 @@
     });
 
     var contributions = new Bloodhound({
-        prefetch: '/output.json',
+        prefetch: './output.json',
         datumTokenizer: function(datum) { return (datum.country+' '+datum.city+' '+datum.text).split(' ')},
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         identify: function(datum) { return datum.index }
@@ -533,7 +539,6 @@
                     '{{country}}</div><div class="text">{{trimString text}}</div></div>')
         }
     }).on('typeahead:select', function(env, suggestion) {
-    	console.log(suggestion);
     	clearSpikes();
     	if (suggestion.longitude && suggestion.latitude) {
 		    drawSpike(suggestion);
